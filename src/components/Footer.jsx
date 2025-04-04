@@ -27,107 +27,100 @@ const Footer = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-col items-center w-full mb-8">
-        <p className="text-white text-center mb-6">
+    <footer className="w-full bg-black text-white pt-10">
+      {/* Email Sign Up */}
+      <div className="flex flex-col items-center w-full px-4 mb-10 text-center">
+        <p className="text-lg sm:text-xl mb-6 max-w-lg">
           Ready to watch? Enter your email to create or restart your membership.
         </p>
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-xl mx-auto">
-  <div className="relative w-full sm:w-2/3">
-    <input
-      type="email"
-      id="email2"
-      placeholder="Email address"
-      value={email}
-      onChange={handleEmailChange}
-      className="peer p-3 sm:p-4 w-full rounded-lg sm:rounded-xl text-white bg-[#ffffff2d] outline-none border border-white focus:border-red-600 transition duration-300 placeholder-transparent"
-    />
-    <label
-      htmlFor="email2"
-      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-300 transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-300 peer-focus:top-3 peer-focus:text-xs peer-focus:text-red-500"
-    >
-      Email address
-    </label>
-  </div>
 
-  <button
-    onClick={handleSubmit}
-    className="bg-red-600 py-[10px] hover:bg-red-700 text-white font-semibold px-6 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl w-full sm:w-auto transition duration-300"
-  >
-    Get Started &gt;
-  </button>
-</div>
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-xl">
+          <div className="relative w-full sm:w-2/3">
+            <input
+              type="email"
+              id="email2"
+              placeholder="Email address"
+              value={email}
+              onChange={handleEmailChange}
+              className="peer p-3 w-full rounded-lg bg-[#ffffff2d] text-white outline-none border border-white focus:border-red-600 placeholder-transparent"
+            />
+            <label
+              htmlFor="email2"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-300 transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs peer-focus:text-red-500"
+            >
+              Email address
+            </label>
+          </div>
 
+          <button
+            onClick={handleSubmit}
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-auto transition"
+          >
+            Get Started &gt;
+          </button>
+        </div>
       </div>
 
-      <div className="bg-black text-white py-12 px-6">
-        <div className="container mx-auto max-w-5xl">
+      {/* Footer Links */}
+      <div className="px-6 sm:px-10 pb-12">
+        <div className="max-w-6xl mx-auto">
           <Link
             to="#"
-            className="block text-gray-400 active:text-red-500 text-lg mb-6 underline"
+            className="block text-gray-400 text-base sm:text-lg mb-6 underline"
           >
             Questions? Contact us.
           </Link>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-lg">
-            <div className="flex flex-col space-y-3">
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">FAQ</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Investor Relations</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Privacy</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Speed Test</Link>
-            </div>
-
-            <div className="flex flex-col space-y-3">
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Help Center</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Jobs</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Cookie Preferences</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Legal Notices</Link>
-            </div>
-
-            <div className="flex flex-col space-y-3">
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Account</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Ways to Watch</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Corporate Information</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Only on Netflix</Link>
-            </div>
-
-            <div className="flex flex-col space-y-3">
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Media Center</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Terms of Use</Link>
-              <Link to="#" className="text-gray-400 active:text-red-700 underline">Contact Us</Link>
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm sm:text-base">
+            {[
+              ["FAQ", "Investor Relations", "Privacy", "Speed Test"],
+              ["Help Center", "Jobs", "Cookie Preferences", "Legal Notices"],
+              ["Account", "Ways to Watch", "Corporate Information", "Only on Netflix"],
+              ["Media Center", "Terms of Use", "Contact Us"]
+            ].map((column, idx) => (
+              <div key={idx} className="flex flex-col space-y-3">
+                {column.map((item, i) => (
+                  <Link
+                    key={i}
+                    to="#"
+                    className="text-gray-400 hover:text-red-600 underline transition"
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
+            ))}
           </div>
 
-          <div className="mt-8 relative inline-block">
+          {/* Language Selector */}
+          <div className="mt-10 relative inline-block">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center gap-2 
-                        hover:bg-gray-700 transition duration-300 border border-gray-600 shadow-md"
+              className="bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-gray-700 transition border border-gray-600 shadow-md"
             >
-              {language} <span className={`transform transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}>▼</span>
+              {language}
+              <span className={`transform transition-transform ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}>▼</span>
             </button>
 
             {isDropdownOpen && (
-              <ul className="absolute left-0 mt-2 w-44 bg-gray-900 text-white shadow-lg rounded-lg overflow-hidden z-10 border border-gray-700">
-                <li
-                  onClick={() => handleLanguageChange("English")}
-                  className="px-5 py-3 hover:bg-gray-700 cursor-pointer transition duration-200"
-                >
-                  English
-                </li>
-                <li
-                  onClick={() => handleLanguageChange("Arabic")}
-                  className="px-5 py-3 hover:bg-gray-700 cursor-pointer transition duration-200"
-                >
-                  Arabic
-                </li>
+              <ul className="absolute left-0 mt-2 w-44 bg-gray-900 text-white shadow-lg rounded-lg z-10 border border-gray-700">
+                {["English", "Arabic"].map((lang) => (
+                  <li
+                    key={lang}
+                    onClick={() => handleLanguageChange(lang)}
+                    className="px-5 py-3 hover:bg-gray-700 cursor-pointer transition"
+                  >
+                    {lang}
+                  </li>
+                ))}
               </ul>
             )}
           </div>
-          <h1 className="py-[50px]">Netflix Egypt</h1>
+
+          <p className="mt-6 text-gray-400 text-sm">Netflix Egypt</p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

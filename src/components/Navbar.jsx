@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
 const Navbar = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [language, setLanguage] = useState(localStorage.getItem("language") || "English");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -20,11 +20,8 @@ const Navbar = () => {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
@@ -44,56 +41,48 @@ const Navbar = () => {
 
   return (
     <nav
-      className="py-4 pt-6 flex items-center fixed top-0 left-0 w-full z-50"
-      style={{
-        background: "linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(75, 74, 74, 0.5), rgba(0, 0, 0, 0))",
-      }}
+      className="w-full fixed top-0 left-0 z-50 bg-gradient-to-b from-black via-[#4b4a4a80] to-transparent py-4 px-4 sm:px-10 flex flex-wrap items-center justify-between"
     >
-      <Link to="/" className="text-red-600 pl-[60px] text-[50px] font-bold sm:hidden ml-[10px] pr-[30px]">
-        N
-      </Link>
-
-      <Link to="/" className="text-red-600 pl-[60px] text-[50px] font-bold hidden sm:block">
+      {/* Logo */}
+      <Link to="/" className="text-red-600 text-[36px] sm:text-[50px] font-bold">
         Netflix
       </Link>
 
-      <div className="hidden sm:flex-grow sm:flex pt-[70px] justify-center">
-        <div className="inline-flex items-center py-2 bg-black bg-opacity-80 rounded-2xl border border-black w-fit">
-          <button onClick={() => scrollToSection("trend")} className="text-gray-300 hover:text-white transition px-4 cursor-pointer">
-            Popular Now
-          </button>
-          <button onClick={() => scrollToSection("plans")} className="text-gray-300 hover:text-white transition px-4 cursor-pointer">
-            Plans
-          </button>
-          <button onClick={() => scrollToSection("join")} className="text-gray-300 hover:text-white transition px-4 cursor-pointer">
-            Reasons to Join
-          </button>
-          <button onClick={() => scrollToSection("faq")} className="text-gray-300 hover:text-white transition px-4 cursor-pointer">
-            FAQ
-          </button>
-        </div>
+      {/* Middle Nav Links */}
+      <div className="hidden sm:flex gap-4 sm:gap-6 items-center">
+        <button onClick={() => scrollToSection("trend")} className="text-gray-300 hover:text-white transition">
+          Popular Now
+        </button>
+        <button onClick={() => scrollToSection("plans")} className="text-gray-300 hover:text-white transition">
+          Plans
+        </button>
+        <button onClick={() => scrollToSection("join")} className="text-gray-300 hover:text-white transition">
+          Reasons to Join
+        </button>
+        <button onClick={() => scrollToSection("faq")} className="text-gray-300 hover:text-white transition">
+          FAQ
+        </button>
       </div>
 
-      <div className="flex items-center gap-2 pr-[60px]">
+      {/* Right Side Controls */}
+      <div className="flex items-center gap-2 sm:gap-4 mt-4 sm:mt-0">
+        {/* Language Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="bg-gray-800 text-white px-3 py-2 rounded-lg flex items-center gap-1 
-                      hover:bg-gray-700 transition duration-300 border border-gray-600 shadow-md cursor-pointer"
+                      hover:bg-gray-700 transition duration-300 border border-gray-600 shadow-md"
           >
             {language}
-            <span className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : "rotate-0"} pointer-events-none`}>
-              ▼
-            </span>
+            <span className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}>▼</span>
           </button>
-
           {isDropdownOpen && (
-            <ul className="absolute left-0 mt-2 w-44 bg-gray-900 text-white shadow-lg rounded-lg overflow-hidden z-10 border border-gray-700">
+            <ul className="absolute left-0 mt-2 w-40 bg-gray-900 text-white shadow-lg rounded-lg z-10 border border-gray-700">
               {["English", "Arabic"].map((lang) => (
                 <li
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`px-5 py-3 hover:bg-gray-700 cursor-pointer transition duration-200 ${
+                  className={`px-4 py-2 hover:bg-gray-700 cursor-pointer ${
                     language === lang ? "bg-gray-700" : ""
                   }`}
                 >
@@ -104,15 +93,27 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Auth Buttons */}
         {user ? (
-          <div className="flex items-center gap-4">
-            <span className="text-white">{user.email}</span>
-            <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
+          <div className="flex items-center gap-2 sm:gap-4 max-w-[150px] sm:max-w-none">
+            <span
+              className="text-white text-sm sm:text-base truncate max-w-[100px] sm:max-w-none"
+              title={user.email}
+            >
+              {user.email.split("@")[0].slice(0, 3) + "***@" + user.email.split("@")[1]}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-sm sm:text-base transition"
+            >
               Logout
             </button>
           </div>
         ) : (
-          <Link to="/login" className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
+          <Link
+            to="/login"
+            className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-sm sm:text-base transition"
+          >
             Sign In
           </Link>
         )}
